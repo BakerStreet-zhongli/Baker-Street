@@ -170,5 +170,19 @@
     </small>
   </footer>
   <!-- End Footer -->
+  <script>
+    let xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function () {
+      if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+        let res = JSON.parse( xmlHttp.responseText );
+        let dateArr = res.feed.entry[1].gs$cell.$t.split(",");
+        for ( let i = 0; i < dateArr.length; i++ ) {
+          console.log( dateArr[i] );
+        }
+      }
+    }
+    xmlHttp.open("GET", 'https://spreadsheets.google.com/feeds/cells/19V5tU1HJe6WfApVjjg6-aVNQCxWSlkI1NKP8bfzpsCc/1/public/values?alt=json', true); // true for asynchronous
+    xmlHttp.send(null);
+  </script>
 </body>
 </html>
