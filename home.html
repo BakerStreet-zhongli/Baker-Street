@@ -181,7 +181,7 @@
       if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
         let res = JSON.parse( xmlHttp.responseText );
         let dateArr = res.feed.entry[1].gs$cell.$t.split(",");
-        let ele;
+        let ele = '';
         for ( let i = 0; i < dateArr.length; i++ ) {
           ele += '<li class="ampstart-nav-item" style="margin-left: 10px;">' + dateArr[i] + '</li>';
         }
