@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -54,32 +55,53 @@
 
 
 </head>
+
 <body>
     <script>
         const messaging = firebase.messaging();
 
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').then(function (registration) {
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                messaging.useServiceWorker(registration);
+                //try_to_get_token();
+                messaging.requestPermission()
+                    .then(function () {
+                        console.log('Notification permission granted.');
+                        try_to_get_token();
+                    })
+                    .catch(function (err) {
+                        console.log('Unable to get permission to notify.', err);
+                    });
+
+            }).catch(function (err) {
+                //registration failed :(
+                console.log('ServiceWorker registration failed: ', err);
+            });
+        }
+
         function userSub() {
-            if ( Notification.permission !== "granted" ) {
-                messaging.requestPermission().then(function() {
+            if (Notification.permission !== "granted") {
+                messaging.requestPermission().then(function () {
                     console.log('Notification permission granted.');
                     try_to_get_token();
-                }).catch(function(err) {
+                }).catch(function (err) {
                     console.log('Unable to get permission to notify.', err);
                 });
 
-                messaging.onTokenRefresh(function() {
+                messaging.onTokenRefresh(function () {
                     console.log("onTokenRefresh");
                     try_to_get_token();
                 });
             }
         }
 
-        messaging.onMessage(function(payload) {
+        messaging.onMessage(function (payload) {
             console.log("Message received. ", payload);
         });
 
         function try_to_get_token() {
-            messaging.getToken().then(function(currentToken) {
+            messaging.getToken().then(function (currentToken) {
                 if (currentToken) {
                     console.log(currentToken);
                     console.log("currentToken:", currentToken);
@@ -87,30 +109,31 @@
                     $('#btn_sub').addClass('btn-success');
                     $('#btn_sub').text("Success");
                     // saveToken( currentToken );
-                }else {
+                } else {
                     console.log('No Instance ID token available. Request permission to generate one.');
                 }
-            }).catch(function(err) {
+            }).catch(function (err) {
                 console.log('An error occurred while retrieving token. ', err);
                 // try_to_get_token();
             });
         }
 
-        function saveToken( token ){
-            var xmlhttp=new XMLHttpRequest();
-            xmlhttp.onreadystatechange=function() {
-                if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+        function saveToken(token) {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                     console.log('save success.');
                 }
             }
             parameter = "token=" + token;
             xmlhttp.open("POST", "save_token.php", true);
-            xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); //if use POST,then must need this
+            xmlhttp.setRequestHeader("Content-type",
+            "application/x-www-form-urlencoded"); //if use POST,then must need this
             xmlhttp.send(parameter); //if use POST,then send must include parameter
         }
 
-        $( document ).ready(function() {
-            if ( Notification.permission == "granted" ) {
+        $(document).ready(function () {
+            if (Notification.permission == "granted") {
                 $('#btn_sub').removeClass('btn-danger');
                 $('#btn_sub').addClass('btn-success');
                 $('#btn_sub').text("Success");
@@ -121,10 +144,12 @@
         <div class="content_width">
             <label for="inputdefault">Google Firebase Cloud Messaging</label>
             <div align="center">
-                <button type="button" id="btn_sub" onclick="userSub()" class="btn btn-lg btn-danger">Subscription</button>
+                <button type="button" id="btn_sub" onclick="userSub()"
+                    class="btn btn-lg btn-danger">Subscription</button>
             </div>
-	  		<br />
+            <br />
         </div>
     </div>
 </body>
+
 </html>
