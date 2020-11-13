@@ -1,0 +1,11 @@
+client token:eUhQSaiefBU:APA91bG575Eaum08ifUSuIO9N_zHn-3tuWRFD_KbwNMDAcARmVxoj7uBVL1maGKylo0dlsUrOKd9pZbg0stpdTjeQlp6hTTx2BPKVt0McqnLlO_ngzSnUyMB_xJPkqPkuPMV4UWBSjUe
+
+curl -X POST -H "Authorization: key=serverKey" -H "Content-Type: application/json" -d '{
+  "notification": {
+    "title": "Hello",
+    "body": "World",
+    "icon": "firebase-logo.png",
+    "click_action": "https://u2beconvert.ddns.net/"
+  },
+  "to": "client token"
+}' "https://fcm.googleapis.com/fcm/send"
