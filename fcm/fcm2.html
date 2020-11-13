@@ -103,7 +103,6 @@
         function try_to_get_token() {
             messaging.getToken().then(function (currentToken) {
                 if (currentToken) {
-                    console.log(currentToken);
                     console.log("currentToken:", currentToken);
                     $('#btn_sub').removeClass('btn-danger');
                     $('#btn_sub').addClass('btn-success');
