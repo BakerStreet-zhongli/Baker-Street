@@ -104,7 +104,7 @@
             messaging.getToken().then(function (currentToken) {
                 if (currentToken) {
                     console.log("currentToken:", currentToken);
-                    document.getElementById("tk").innerHTML = "Hello World";
+                    document.getElementById("tk").innerHTML = currentToken;
                     $('#btn_sub').removeClass('btn-danger');
                     $('#btn_sub').addClass('btn-success');
                     $('#btn_sub').text("Success");
