@@ -1,0 +1,225 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>BS Wait</title>
+
+        <link rel="stylesheet" type="text/css" href="./bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="./all.css">
+        <link rel="stylesheet" type="text/css" href="./bootstrap-table.min.css">
+        <script src="./jquery-3.3.1.min.js" type="text/javascript"></script>
+        <script src="./popper.min.js" type="text/javascript"></script>
+        <script src="./bootstrap.min.js" type="text/javascript"></script>
+        <script src="./bootstrap-table.min.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-database.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.js"></script>
+        <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.css" />
+        <script src="./dbinit.js" type="text/javascript"></script>
+        <div>
+            <div id="firebaseui-auth-container"></div>
+            <!-- <div id="loader">Loading...</div> -->
+        </div>
+        <div id="wait_fun" class="container" style="display:none;">
+            <div class="col-md-12">
+               <div class="text-center">目前叫號</div>
+               <div class="text-center">
+                    <h1 id="call" style="color:#ffc107"></h1>
+               </div>
+            </div>
+            <div class="col-md-12">
+                <div class="input-group mb-3">
+                    <input type="tel" class="form-control" id="num" name="num" placeholder="號碼">
+                    <div class="input-group-append">
+                        <button id="add" type="button" class="btn btn-success btn-block">發牌</button>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <label class="radio-inline">
+                        <input type="radio" name="people" value="1" checked>
+                        <span style="margin-right:20px;">1位</span>
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="people" value="2">
+                        <span style="margin-right:20px;">2位</span>
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="people" value="3">
+                        <span style="margin-right:20px;">3位</span>
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="text-center">
+                    <label class="radio-inline">
+                        <input type="radio" name="people" value="4">
+                        <span style="margin-right:20px;">4位</span>
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="people" value="5">
+                        <span style="margin-right:20px;">5位</span>
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="people" value="6">
+                        <span style="margin-right:20px;">6位</span>
+                    </label>
+                </div>
+            </div>
+            <div class="">
+                <table id="table"></table>
+            </div>
+            <div class="col-md-12">
+                <button id="clear" type="button" class="btn btn-danger btn-block" style="margin-top: 40px;">重置</button>
+            </div>
+        </div>
+        <script>
+            firebase.auth().onAuthStateChanged((user) => { //https://firebase.google.com/docs/auth/web/anonymous-auth?hl=en&authuser=1
+                if (user) {
+                    // User is signed in, see docs for a list of available properties // https://firebase.google.com/docs/reference/js/firebase.User
+                    var uid = user.uid;
+                    var waiting_num_array = [];
+                    $(document).ready(function() {
+                        $("#add").on('click', function () {
+                            let $num = $("#num").val();
+                            let $people = $('input[name=people]:checked').val();
+                            let waiting_num = waiting_num_array.indexOf($num);
+                            if ($num) {
+                                if ( waiting_num === -1 ) {
+                                    database.ref('/bakerstreet/wait/').push({
+                                        num: $num,
+                                        seat: false,
+                                        people: $people
+                                    }).then(function () {
+                                        $("#num").val("");
+                                    }).catch(function () {
+                                        alert("發生錯誤，請截圖! (push to DB)");
+                                    });
+                                }else {
+                                    alert( $num + ' 已在等候中' );
+                                    $("#num").val("");
+                                }
+                            }
+                        });
+
+                        $("#clear").on('click', function () {
+                            if ( confirm("確定 清空 嗎?") ) {
+                                database.ref('bakerstreet/wait/').set({});
+                                database.ref('/bakerstreet/').update( {call: ""} );
+                            }
+                        });
+                    });
+
+                    function initial_table(rows) {
+                        let $table_column = [{
+                            field: 'target',
+                            visible: false
+                        }, {
+                            field: 'seat',
+                            visible: false
+                        }, {
+                            field: 'people',
+                            visible: false
+                        }, {
+                            field: 'num',
+                            title: '等待中',
+                            width: 40,
+                            formatter: numFormatter
+                        }, {
+                            field: 'action',
+                            title: '',
+                            width: 60,
+                            formatter: actionFormatter,
+                            events: actionEvents
+                        }];
+                        function numFormatter(value, row, index) {
+                            let seat = row.seat === true ? '<span class="badge badge-secondary">已入座</span>' : '';
+                            let color = row.seat === true ? 'btn-light' : 'btn-success';
+                            return [
+                                '<button type="button" class="btn btn-sm '+color+'">'+value+'號</button>',
+                                ' ',
+                                '<button type="button" class="btn btn-sm btn-light">'+row.people+'位 '+seat+'</button>'
+                            ].join('');
+                        }
+                        function actionFormatter(value, row, index) {
+                            if (row.seat === false) {
+                                return [
+                                    '<button type="button" class="btn btn-sm btn-warning each_call">叫號</button>',
+                                    '<button type="button" class="btn btn-sm btn-secondary each_seat">入座</button>',
+                                    '<button type="button" class="btn btn-sm btn-light each_delete">取消</button>'
+                                ].join('');
+                            }else {
+                                return "";
+                            }
+                        }
+                        $('#table').bootstrapTable({
+                            search: false,
+                            classes: 'table table-bordered table-hover table-sm',
+                            columns: $table_column,
+                            theadClasses: 'thead-light',
+                            onLoadSuccess: function(data) {
+                            },
+                            formatNoMatches: function () {
+                                return '目前沒有候位';
+                            },
+                            onClickRow: function(row, $element, field) {
+
+                            }
+                        });
+                        if ( rows.length === 0 ) {
+                            $('#table').bootstrapTable('removeAll');
+                        }
+                        $("#table").bootstrapTable('load', rows);
+                        // $('#table').bootstrapTable('filterBy', { seat: false });
+                    }
+
+                    database.ref('/bakerstreet/').on('value', function (snapshot) {
+                        let data = snapshot.val();
+                        let $array = [];
+                        waiting_num_array.length = 0;
+                        for ( let key in data.wait ) {
+                            data.wait[key].target = key;
+                            $array.push(data.wait[key]);
+                            if (data.wait[key].seat === false) {
+                                waiting_num_array.push(data.wait[key].num);
+                            }
+                        }
+                        initial_table($array);
+                        $("#call").html(data.call);
+                    });
+
+                    window.actionEvents = {
+                        'click .each_call': function ( e, value, row, index, field ) {
+                            e.stopPropagation();
+                            database.ref('/bakerstreet/').update( {call: row.num} );
+                        },
+                        'click .each_seat': function ( e, value, row, index, field ) {
+                            e.stopPropagation();
+                            if ( confirm("確定 "+row.num+"號 入座嗎?") ) {
+                                database.ref('/bakerstreet/wait/' + row.target).update( {seat: true} );
+                            }
+                        },
+                        'click .each_delete': function ( e, value, row, index, field ) {
+                            e.stopPropagation();
+                            if ( confirm("確定 取消 嗎?") ) {
+                                database.ref('/bakerstreet/wait/' + row.target).remove();
+                            }
+                        }
+                    };
+                    document.getElementById('wait_fun').style.display = '';
+                } else {
+                    document.getElementById('wait_fun').style.display = 'none';
+                    ui.start('#firebaseui-auth-container', { //https://github.com/firebase/firebaseui-web
+                        signInOptions: [{
+                            provider: firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
+                        }]
+                    });
+                }
+            });
+        </script>
+    </body>
+</html>
