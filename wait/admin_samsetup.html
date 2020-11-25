@@ -113,6 +113,7 @@
                             if ( confirm("確定 清空 嗎?") ) {
                                 database.ref('bakerstreet/wait/').set({});
                                 database.ref('/bakerstreet/').update( {call: ""} );
+                                database.ref('/bakerstreet/').update( {update: ""} );
                             }
                         });
                     });
