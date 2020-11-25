@@ -27,6 +27,9 @@
                 <div class="text-center">
                     <h1 id="call" style="color:#ffc107"></h1>
                 </div>
+                <div class="text-center">
+                    <span id="updateTime"></span>
+                </div>
             </div>
 
             <div class="col-md-12" style="margin-top:20px;">
@@ -109,6 +112,7 @@
                 }
                 initial_table($array);
                 $("#call").html(data.call);
+                $("#updateTime").html( '更新時間:'+new Date().toLocaleString() );
             });
         </script>
     </body>
