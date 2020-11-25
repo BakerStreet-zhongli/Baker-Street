@@ -193,24 +193,27 @@
                         }
                         initial_table($array);
                         $("#call").html(data.call);
-                        $("#updateTime").html( '更新時間:'+new Date().toLocaleString() );
+                        $("#updateTime").html( data.update );
                     });
 
                     window.actionEvents = {
                         'click .each_call': function ( e, value, row, index, field ) {
                             e.stopPropagation();
                             database.ref('/bakerstreet/').update( {call: row.num} );
+                            database.ref('/bakerstreet/').update( {update: '更新時間:'+new Date().toLocaleString()} );
                         },
                         'click .each_seat': function ( e, value, row, index, field ) {
                             e.stopPropagation();
                             if ( confirm("確定 "+row.num+"號 入座嗎?") ) {
                                 database.ref('/bakerstreet/wait/' + row.target).update( {seat: true} );
+                                database.ref('/bakerstreet/').update( {update: '更新時間:'+new Date().toLocaleString()} );
                             }
                         },
                         'click .each_delete': function ( e, value, row, index, field ) {
                             e.stopPropagation();
                             if ( confirm("確定 取消 嗎?") ) {
                                 database.ref('/bakerstreet/wait/' + row.target).remove();
+                                database.ref('/bakerstreet/').update( {update: '更新時間:'+new Date().toLocaleString()} );
                             }
                         }
                     };
