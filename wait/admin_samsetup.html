@@ -21,9 +21,22 @@
         <script src="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.js"></script>
         <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.css" />
         <script src="./adbinit.js" type="text/javascript"></script>
-        <div>
-            <div id="firebaseui-auth-container"></div>
-            <!-- <div id="loader">Loading...</div> -->
+        <!-- Anonymous use
+            <div>
+                <div id="firebaseui-auth-container"></div>
+                <div id="loader">Loading...</div>
+            </div>
+        -->
+        <div id="myValidate" class="container" style="margin-top:50px;display:none;">
+            <div class="form-group">
+                <input id="email" type="email" class="form-control" placeholder="帳號">
+            </div>
+            <div class="form-group">
+                <input id="password" type="password" class="form-control" placeholder="密碼">
+            </div>
+            <div class="form-group">
+                <button id="login" type="button" class="btn btn-primary btn-block">登入</button>
+            </div>
         </div>
         <div id="wait_fun" class="container" style="display:none;">
             <div class="col-md-12">
@@ -116,6 +129,8 @@
                                 database.ref('/bakerstreet/').update( {update: ""} );
                             }
                         });
+
+                        console.log('document ready');
                     });
 
                     function initial_table(rows) {
@@ -170,19 +185,17 @@
                             formatNoMatches: function () {
                                 return '目前沒有候位';
                             },
-                            onClickRow: function(row, $element, field) {
-
-                            }
+                            onClickRow: function(row, $element, field) {}
                         });
                         if ( rows.length === 0 ) {
                             $('#table').bootstrapTable('removeAll');
                         }
                         $("#table").bootstrapTable('load', rows);
-                        // $('#table').bootstrapTable('filterBy', { seat: false });
                     }
 
                     database.ref('/bakerstreet/').on('value', function (snapshot) {
                         let data = snapshot.val();
+                        console.log(data);
                         let $array = [];
                         waiting_num_array.length = 0;
                         for ( let key in data.wait ) {
@@ -218,14 +231,36 @@
                             }
                         }
                     };
-                    document.getElementById('wait_fun').style.display = '';
                 } else {
+                    document.getElementById('myValidate').style.display = '';
                     document.getElementById('wait_fun').style.display = 'none';
-                    ui.start('#firebaseui-auth-container', { //https://github.com/firebase/firebaseui-web
-                        signInOptions: [{
-                            provider: firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
-                        }]
+                    $("#login").on('click', function () {
+                        let email = $("#email").val();
+                        let password = $("#password").val();
+                        if (email && password) {
+                            firebase.auth().signInWithEmailAndPassword(email, password)
+                            .then(() => {
+                                var user = firebase.auth().currentUser;
+                                if (user) {
+                                    document.getElementById('myValidate').style.display = 'none';
+                                    document.getElementById('wait_fun').style.display = '';
+                                    $("#myValidate").html("");
+                                    console.log('success');
+                                }
+                            })
+                            .catch((error) => {
+                                console.log(error.message);
+                                alert(error.message);
+                            });
+                        }
                     });
+                    /** Anonymous use
+                        ui.start('#firebaseui-auth-container', { //https://github.com/firebase/firebaseui-web
+                            signInOptions: [{
+                                provider: firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
+                            }]
+                        });
+                    */
                 }
             });
         </script>
