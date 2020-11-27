@@ -8,6 +8,4 @@ var config = {
 };
 firebase.initializeApp(config);
 var database = firebase.database();
-var ui = new firebaseui.auth.AuthUI(firebase.auth());
-
 // let pw = prompt('請輸入密碼');
