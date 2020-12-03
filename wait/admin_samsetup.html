@@ -86,6 +86,22 @@
                     </label>
                 </div>
             </div>
+            <div class="col-md-12">
+                <div class="text-center">
+                    <label class="radio-inline">
+                        <input type="radio" name="people" value="7">
+                        <span style="margin-right:20px;">7位</span>
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="people" value="8">
+                        <span style="margin-right:20px;">8位</span>
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="people" value="9">
+                        <span style="margin-right:20px;">9位</span>
+                    </label>
+                </div>
+            </div>
             <div class="">
                 <table id="table"></table>
             </div>
@@ -115,7 +131,7 @@
                                         $("#num").val("");
                                         database.ref('/bakerstreet/').update( {update: '更新時間:'+new Date().toLocaleString()} );
                                     }).catch(function () {
-                                        alert("發生錯誤，請截圖! (push to DB)");
+                                        alert("發生錯誤! (push to DB)");
                                     });
                                 }else {
                                     alert( $num + ' 已在等候中' );
