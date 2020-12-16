@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>修改</title>
+        <link rel="stylesheet" type="text/css" href="./bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="./all.css">
+        <script src="./jquery-3.3.1.min.js" type="text/javascript"></script>
+        <script src="./popper.min.js" type="text/javascript"></script>
+        <script src="./bootstrap.min.js" type="text/javascript"></script>
+        <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/versions/2.1.13/sdk.js"></script>
+    </head>
+    <body>
+        <div id="myValidate" class="container" style="margin-top:50px;">
+            <div class="form-group">
+                <input id="column_00" type="text" class="form-control" placeholder="column_00">
+            </div>
+            <div class="form-group">
+                <input id="column_01" type="text" class="form-control" placeholder="column_01">
+            </div>
+            <div class="form-group">
+                <input id="column_02" type="text" class="form-control" placeholder="column_02">
+            </div>
+            <div class="form-group">
+                <input id="column_03" type="text" class="form-control" placeholder="column_03">
+            </div>
+            <div class="form-group">
+                <input id="column_04" type="text" class="form-control" placeholder="column_04">
+            </div>
+            <div class="form-group">
+                <button id="send" type="button" class="btn btn-primary btn-block">送出</button>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function () {
+                initializeLiff('1655384171-eanXbXRN');
+            });
+
+            function initializeLiff(myLiffId) {
+                liff
+                    .init({
+                        liffId: myLiffId
+                    })
+                    .then(() => {
+                        location.replace("https://liff.line.me/" + myLiffId);
+                    });
+            }
+        </script>
+    </body>
+</html>
