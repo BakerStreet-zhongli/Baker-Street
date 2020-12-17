@@ -45,9 +45,9 @@
                     // if ( liff.isInClient() && liff.isLoggedIn() ) {
                     if ( liff.isLoggedIn() ) {
                         liff.getProfile().then(function(profile) {
-                            console.log(profile);
-                            //{userId: "uuu", displayName: "將將", pictureUrl: "https://profile.line-scdn.net/uuu", statusMessage: "🍰"}
-                            $("#temp01").html( 'Hi ' + profile.displayName );
+                            // console.log(profile); {userId: "uuu", displayName: "將將", pictureUrl: "https://profile.line-scdn.net/uuu", statusMessage: "🍰"}
+                            document.title = 'Hi ' + profile.displayName;
+                            // $("#temp01").html(  );
                         });
                     }else {
                         liff.login({
