@@ -44,7 +44,13 @@
                 }).then(() => {
                     console.log('LIFF init');
                     //
-                    if ( liff.isInClient() && liff.isLoggedIn() ) {
+                    liff.login({
+                        // 使用者登入後要去到哪個頁面
+                        //  redirectUri: 'https://www.xxxxxxx.com.tw'
+                    });
+
+                    // if ( liff.isInClient() && liff.isLoggedIn() ) {
+                    if ( liff.isLoggedIn() ) {
                         liff.getProfile().then(function(profile) {
                             console.log(profile);
                             $("#temp01").html( profile.displayName );
