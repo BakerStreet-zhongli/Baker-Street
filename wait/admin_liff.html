@@ -36,6 +36,21 @@
         <script>
             $(document).ready(function () {
                 initializeLiff('1655384171-eanXbXRN');
+
+                liff.ready.then(() => {
+                    // if ( liff.isInClient() && liff.isLoggedIn() ) {
+                    if ( liff.isLoggedIn() ) {
+                        liff.getProfile().then(function(profile) {
+                            console.log(profile);
+                            $("#temp01").html( profile.displayName );
+                        });
+                    }else {
+                        liff.login({
+                            // 使用者登入後要去到哪個頁面
+                            //  redirectUri: 'https://www.xxxxxxx.com.tw'
+                        });
+                    }
+                })
             });
 
             function initializeLiff(myLiffId) {
@@ -44,19 +59,6 @@
                 }).then(() => {
                     console.log('LIFF init');
                     //
-                    liff.login({
-                        // 使用者登入後要去到哪個頁面
-                        //  redirectUri: 'https://www.xxxxxxx.com.tw'
-                    });
-
-                    // if ( liff.isInClient() && liff.isLoggedIn() ) {
-                    if ( liff.isLoggedIn() ) {
-                        liff.getProfile().then(function(profile) {
-                            console.log(profile);
-                            $("#temp01").html( profile.displayName );
-                        });
-                    }
-
                 }).catch(function(error) {
                     console.log(error);
                 });
