@@ -44,9 +44,13 @@
                 }).then(() => {
                     console.log('LIFF init');
                     //
-                    console.log( liff.isInClient() );
-                    console.log( liff.isLoggedIn() );
-                    $("#temp01").html( liff.isInClient() + ' ' + liff.isLoggedIn() );
+                    if ( liff.isInClient() && liff.isLoggedIn() ) {
+                        liff.getProfile().then(function(profile) {
+                            console.log(profile);
+                            $("#temp01").html( profile );
+                        });
+                    }
+
                 }).catch(function(error) {
                     console.log(error);
                 });
