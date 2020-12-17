@@ -47,7 +47,7 @@
                     if ( liff.isInClient() && liff.isLoggedIn() ) {
                         liff.getProfile().then(function(profile) {
                             console.log(profile);
-                            $("#temp01").html( profile );
+                            $("#temp01").html( profile.displayName );
                         });
                     }
 
