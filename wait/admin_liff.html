@@ -12,7 +12,7 @@
         <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/versions/2.1.13/sdk.js"></script>
         <style>
             .iga-prefix {
-                min-width: 102px;
+                min-width: 74px;
                 background-color: #b3d7ff;
             }
         </style>
@@ -139,7 +139,7 @@
             <div class="form-row">
                 <div class="input-group input-group-sm mb-3 col">
                     <div class="input-group-prepend">
-                      <span class="input-group-text iga-prefix">薪資福利支出</span>
+                      <span class="input-group-text iga-prefix">薪資福利</span>
                     </div>
                     <input id="row17" type="tel" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                 </div>
@@ -175,15 +175,33 @@
 
                 $("#send").on('click', function () {
                     if ( confirm("確定 修改 嗎?") ) {
-                        liff.sendMessages([{
-                            type: 'text',
-                            text: $("#column_00").val()
-                        }]).then(() => {
-                            console.log('message sented');
-                            liff.closeWindow();
-                        }).catch((err) => {
-                            console.log('error', err);
+                        let array = [];
+                        $("#allInput input").each(function() {
+                            if ( $(this).attr('id') ) {
+                                array.push( $(this).val() );
+                            }
                         });
+                        $.ajax({
+                            url: "https://script.google.com/macros/s/AKfycbwLSG2VAXZfIR8X60KgIPJQk8tR7-5ebIzSfO205UCOCknXDuo-/exec",
+                            data: {
+                                method: 'set_values',
+                                data: JSON.stringify(array)
+                            },
+                            success: function(response) {
+                                console.log(response);
+                            }
+                        });
+
+                        //JSON.stringify([1,2,3])
+                        // console.log(obj);
+                        // liff.sendMessages([{
+                        //     type: 'text',
+                        //     text: $("#row3").val()
+                        // }]).then(() => {
+                        //     liff.closeWindow();
+                        // }).catch((err) => {
+                        //     console.log('error', err);
+                        // });
                     }
                 });
             });
@@ -192,8 +210,7 @@
                 liff.init({
                     liffId: myLiffId
                 }).then(() => {
-                    console.log('LIFF init');
-                    //
+                    // console.log('LIFF init');
                 }).catch(function(error) {
                     console.log(error);
                 });
@@ -202,16 +219,35 @@
             function getGoogleSheet() {
                 $.ajax({
                     url: "https://script.google.com/macros/s/AKfycbwLSG2VAXZfIR8X60KgIPJQk8tR7-5ebIzSfO205UCOCknXDuo-/exec",
+                    data: {
+                        method: 'get_values'
+                    },
                     success: function(response) {
+                        console.log(response);
                         let arr = response.split(",");
                         $("#allInput input").each(function(index) {
-                            // console.log( index,$(this).attr('id') );
-                            $(this).val( arr[index] );
+                            if (index === 0) {
+                                $(this).val( timeStamp2String(Date.parse(arr[index])) );
+                            }else {
+                                $(this).val( arr[index] );
+                            }
                         });
-                        // console.log(arr);
                     }
                 });
             }
+
+            function timeStamp2String (time) {
+                var datetime = new Date();
+                datetime.setTime(time);
+                var year = datetime.getFullYear();
+                var month = datetime.getMonth() + 1;
+                var date = datetime.getDate();
+                var hour = datetime.getHours();
+                var minute = datetime.getMinutes();
+                var second = datetime.getSeconds();
+                var mseconds = datetime.getMilliseconds();
+                return month + "/" + date + " " + hour + ":" + minute;
+            };
         </script>
     </body>
 </html>
