@@ -54,7 +54,20 @@
                             //  redirectUri: 'https://www.xxxxxxx.com.tw'
                         });
                     }
-                })
+                });
+
+                $("#send").on('click', function () {
+                    if ( confirm("確定 修改 嗎?") ) {
+                        liff.sendMessages([{
+                            type: 'text',
+                            text: $("#column_00").val()
+                        }]).then(() => {
+                            console.log('message sented');
+                        }).catch((err) => {
+                            console.log('error', err);
+                        });
+                    }
+                });
             });
 
             function initializeLiff(myLiffId) {
