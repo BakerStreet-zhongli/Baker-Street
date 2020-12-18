@@ -175,7 +175,6 @@
                     if ( confirm("確定 修改 嗎?") ) {
                         if ( liff.isInClient() && liff.isLoggedIn() ) {
                             $(this).text("傳送中...");
-                            document.body.style.zoom = "100%";
                             let array = [];
                             $("#allInput input").each(function() {
                                 if ( $(this).attr('id') ) {
