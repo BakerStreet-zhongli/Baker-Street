@@ -173,34 +173,36 @@
 
                 $("#send").on('click', function () {
                     if ( confirm("確定 修改 嗎?") ) {
-                        $(this).text("傳送中...");
-                        document.body.style.zoom = "100%";
-                        let array = [];
-                        $("#allInput input").each(function() {
-                            if ( $(this).attr('id') ) {
-                                array.push( $(this).val() );
-                            }
-                        });
-                        $.ajax({
-                            url: "https://script.google.com/macros/s/AKfycbwLSG2VAXZfIR8X60KgIPJQk8tR7-5ebIzSfO205UCOCknXDuo-/exec",
-                            data: {
-                                method: 'set_values',
-                                data: JSON.stringify(array)
-                            },
-                            success: function(response) {
-                                response === 'done' ? $("#send").text("修改") : $("#send").text("失敗");
-                                liff.closeWindow();
-                            }
-                        });
+                        if ( liff.isInClient() && liff.isLoggedIn() ) {
+                            $(this).text("傳送中...");
+                            document.body.style.zoom = "100%";
+                            let array = [];
+                            $("#allInput input").each(function() {
+                                if ( $(this).attr('id') ) {
+                                    array.push( $(this).val() );
+                                }
+                            });
+                            $.ajax({
+                                url: "https://script.google.com/macros/s/AKfycbwLSG2VAXZfIR8X60KgIPJQk8tR7-5ebIzSfO205UCOCknXDuo-/exec",
+                                data: {
+                                    method: 'set_values',
+                                    data: JSON.stringify(array)
+                                },
+                                success: function(response) {
+                                    response === 'done' ? $("#send").text("修改") : $("#send").text("失敗");
+                                    liff.closeWindow();
+                                }
+                            });
 
-                        // liff.sendMessages([{
-                        //     type: 'text',
-                        //     text: $("#row3").val()
-                        // }]).then(() => {
-                        //     liff.closeWindow();
-                        // }).catch((err) => {
-                        //     console.log('error', err);
-                        // });
+                            // liff.sendMessages([{
+                            //     type: 'text',
+                            //     text: $("#row3").val()
+                            // }]).then(() => {
+                            //     liff.closeWindow();
+                            // }).catch((err) => {
+                            //     console.log('error', err);
+                            // });
+                        }
                     }
                 });
             });
