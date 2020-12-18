@@ -18,11 +18,9 @@
         </style>
     </head>
     <body>
-        <div id="allInput" class="container" style="margin-top:20px;">
-            <div class="col-md-12">
-                <div class="text-center">
-                    <h5 id="temp01" style="color:#6c757d"></h5>
-                </div>
+        <div id="allInput" class="container">
+            <div class="text-center">
+                <h6 id="loading" style="color:#ffc107"></h6>
             </div>
             <div class="form-row">
                 <div class="input-group input-group-sm mb-3 col">
@@ -156,17 +154,17 @@
         </div>
         <script>
             $(document).ready(function () {
-                getGoogleSheet();
                 initializeLiff('1655384171-eanXbXRN');
 
                 liff.ready.then(() => {
                     if ( liff.isInClient() && liff.isLoggedIn() ) {
+                        getGoogleSheet();
                         liff.getProfile().then(function(profile) {
                             // console.log(profile); {userId: "uuu", displayName: "將將", pictureUrl: "https://profile.line-scdn.net/uuu", statusMessage: "🍰"}
                             document.title = 'Hi ' + profile.displayName;
                         });
                     }else {
-                        // alert( 'Permission denied' );
+                        alert( 'Permission denied' );
                         // liff.login({
                         //     redirectUri: 'https://www.xxxxxxx.com.tw'
                         // });
@@ -175,6 +173,7 @@
 
                 $("#send").on('click', function () {
                     if ( confirm("確定 修改 嗎?") ) {
+                        $(this).text("傳送中...");
                         let array = [];
                         $("#allInput input").each(function() {
                             if ( $(this).attr('id') ) {
@@ -188,13 +187,11 @@
                                 data: JSON.stringify(array)
                             },
                             success: function(response) {
-                                console.log(response);
+                                response === 'done' ? $("#send").text("修改") : $("#send").text("失敗");
                                 liff.closeWindow();
                             }
                         });
 
-                        //JSON.stringify([1,2,3])
-                        // console.log(obj);
                         // liff.sendMessages([{
                         //     type: 'text',
                         //     text: $("#row3").val()
@@ -218,13 +215,14 @@
             }
 
             function getGoogleSheet() {
+                $("#loading").html("讀取中...");
                 $.ajax({
                     url: "https://script.google.com/macros/s/AKfycbwLSG2VAXZfIR8X60KgIPJQk8tR7-5ebIzSfO205UCOCknXDuo-/exec",
                     data: {
                         method: 'get_values'
                     },
                     success: function(response) {
-                        console.log(response);
+                        $("#loading").html("");
                         let arr = response.split(",");
                         $("#allInput input").each(function(index) {
                             if (index === 0) {
