@@ -33,7 +33,13 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text iga-prefix">填寫人</span>
                     </div>
-                    <input id="row2" type="tel" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled>
+                    <!-- <input id="row2" type="tel" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm"> -->
+                    <select class="custom-select" id="row2">
+                        <option selected>請選擇</option>
+                        <option value="K">K</option>
+                        <option value="于">于</option>
+                        <option value="胡歌">胡歌</option>
+                    </select>
                 </div>
             </div>
             <div class="form-row">
@@ -148,14 +154,6 @@
                     <input id="row18" type="tel" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                 </div>
             </div>
-            <div class="form-row">
-                <div class="input-group input-group-sm mb-3 col">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text iga-prefix">合計</span>
-                    </div>
-                    <input id="row19" type="tel" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled>
-                </div>
-            </div>
             <div class="form-group">
                 <button id="send" type="button" class="btn btn-primary btn-block btn-sm">新增</button>
             </div>
@@ -163,6 +161,8 @@
         <script>
             $(document).ready(function () {
                 initializeLiff('1655384171-3242X25W');
+                let currentTime = Date.now();
+                $("#row1").val( timeStamp2String(currentTime) )
 
                 liff.ready.then(() => {
                     if ( liff.isInClient() && liff.isLoggedIn() ) {
@@ -176,26 +176,26 @@
 
                 $("#send").on('click', function () {
                     if ( confirm("確定 新增 嗎?") ) {
-                        // if ( liff.isInClient() && liff.isLoggedIn() ) {
-                        //     $(this).text("傳送中...");
-                        //     let array = [];
-                        //     $("#allInput input").each(function() {
-                        //         if ( $(this).attr('id') ) {
-                        //             array.push( $(this).val() );
-                        //         }
-                        //     });
-                        //     $.ajax({
-                        //         url: "https://script.google.com/macros/s/AKfycbwLSG2VAXZfIR8X60KgIPJQk8tR7-5ebIzSfO205UCOCknXDuo-/exec",
-                        //         data: {
-                        //             method: 'set_values',
-                        //             data: JSON.stringify(array)
-                        //         },
-                        //         success: function(response) {
-                        //             response === 'done' ? $("#send").text("新增") : $("#send").text("失敗");
-                        //             liff.closeWindow();
-                        //         }
-                        //     });
-                        // }
+                        if ( liff.isInClient() && liff.isLoggedIn() ) {
+                            $(this).text("傳送中...");
+                            let array = [];
+                            $("#allInput input, #allInput select").each(function() {
+                                if ( $(this).attr('id') ) {
+                                    array.push( $(this).val() );
+                                }
+                            });
+                            $.ajax({
+                                url: "https://script.google.com/macros/s/AKfycbwLSG2VAXZfIR8X60KgIPJQk8tR7-5ebIzSfO205UCOCknXDuo-/exec",
+                                data: {
+                                    method: 'add_values',
+                                    data: JSON.stringify(array)
+                                },
+                                success: function(response) {
+                                    response === 'done' ? $("#send").text("新增") : $("#send").text("失敗");
+                                    liff.closeWindow();
+                                }
+                            });
+                        }
                     }
                 });
             });
@@ -220,7 +220,7 @@
                 var minute = datetime.getMinutes();
                 var second = datetime.getSeconds();
                 var mseconds = datetime.getMilliseconds();
-                return month + "/" + date + " " + hour + ":" + minute;
+                return year + "/" + month + "/" + date + " " + hour + ":" + minute;
             };
         </script>
     </body>
