@@ -252,7 +252,7 @@
                 var month = datetime.getMonth() + 1;
                 var date = datetime.getDate();
                 var hour = datetime.getHours();
-                var minute = datetime.getMinutes();
+                var minute = ( datetime.getMinutes() < 10 ? '0' : '' ) + datetime.getMinutes();
                 var second = datetime.getSeconds();
                 var mseconds = datetime.getMilliseconds();
                 return month + "/" + date + " " + hour + ":" + minute;
