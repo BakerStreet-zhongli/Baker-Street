@@ -1,0 +1,227 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title></title>
+        <link rel="stylesheet" type="text/css" href="./bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="./all.css">
+        <script src="./jquery-3.3.1.min.js" type="text/javascript"></script>
+        <script src="./popper.min.js" type="text/javascript"></script>
+        <script src="./bootstrap.min.js" type="text/javascript"></script>
+        <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/versions/2.1.13/sdk.js"></script>
+        <style>
+            .iga-prefix {
+                min-width: 74px;
+                background-color: #b3d7ff;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="allInput" class="container">
+            <div class="text-center">
+                <h6 id="loading" style="color:#ffc107"></h6>
+            </div>
+            <div class="form-row">
+                <div class="input-group input-group-sm mb-3 col">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text iga-prefix">時間</span>
+                    </div>
+                    <input id="row1" type="tel" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled>
+                </div>
+                <div class="input-group input-group-sm mb-3 col">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text iga-prefix">填寫人</span>
+                    </div>
+                    <input id="row2" type="tel" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="input-group input-group-sm mb-3 col">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text iga-prefix">美生家</span>
+                    </div>
+                    <input id="row3" type="tel" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                </div>
+                <div class="input-group input-group-sm mb-3 col">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text iga-prefix">蒜頭家</span>
+                    </div>
+                    <input id="row4" type="tel" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="input-group input-group-sm mb-3 col">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text iga-prefix">新生家</span>
+                    </div>
+                    <input id="row5" type="tel" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                </div>
+                <div class="input-group input-group-sm mb-3 col">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text iga-prefix">光泉家</span>
+                    </div>
+                    <input id="row6" type="tel" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="input-group input-group-sm mb-3 col">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text iga-prefix">開元家</span>
+                    </div>
+                    <input id="row7" type="tel" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                </div>
+                <div class="input-group input-group-sm mb-3 col">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text iga-prefix">海鮮家</span>
+                    </div>
+                    <input id="row8" type="tel" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="input-group input-group-sm mb-3 col">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text iga-prefix">富豐家</span>
+                    </div>
+                    <input id="row9" type="tel" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                </div>
+                <div class="input-group input-group-sm mb-3 col">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text iga-prefix">雞腿家</span>
+                    </div>
+                    <input id="row10" type="tel" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="input-group input-group-sm mb-3 col">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text iga-prefix">麵包家</span>
+                    </div>
+                    <input id="row11" type="tel" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                </div>
+                <div class="input-group input-group-sm mb-3 col">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text iga-prefix">代購</span>
+                    </div>
+                    <input id="row12" type="tel" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="input-group input-group-sm mb-3 col">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text iga-prefix">瓦斯家</span>
+                    </div>
+                    <input id="row13" type="tel" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                </div>
+                <div class="input-group input-group-sm mb-3 col">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text iga-prefix">沙拉</span>
+                    </div>
+                    <input id="row14" type="tel" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="input-group input-group-sm mb-3 col">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text iga-prefix">蛋商</span>
+                    </div>
+                    <input id="row15" type="tel" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                </div>
+                <div class="input-group input-group-sm mb-3 col">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text iga-prefix">冰塊</span>
+                    </div>
+                    <input id="row16" type="tel" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="input-group input-group-sm mb-3 col">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text iga-prefix">其他支出</span>
+                    </div>
+                    <input id="row17" type="tel" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                </div>
+                <div class="input-group input-group-sm mb-3 col">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text iga-prefix">薪資福利</span>
+                    </div>
+                    <input id="row18" type="tel" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="input-group input-group-sm mb-3 col">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text iga-prefix">合計</span>
+                    </div>
+                    <input id="row19" type="tel" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled>
+                </div>
+            </div>
+            <div class="form-group">
+                <button id="send" type="button" class="btn btn-primary btn-block btn-sm">新增</button>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function () {
+                initializeLiff('1655384171-3242X25W');
+
+                liff.ready.then(() => {
+                    if ( liff.isInClient() && liff.isLoggedIn() ) {
+                        liff.getProfile().then(function(profile) {
+                            document.title = 'Hi ' + profile.displayName;
+                        });
+                    }else {
+                        window.location.replace("https://line.me/zh-hant/");
+                    }
+                });
+
+                $("#send").on('click', function () {
+                    if ( confirm("確定 新增 嗎?") ) {
+                        // if ( liff.isInClient() && liff.isLoggedIn() ) {
+                        //     $(this).text("傳送中...");
+                        //     let array = [];
+                        //     $("#allInput input").each(function() {
+                        //         if ( $(this).attr('id') ) {
+                        //             array.push( $(this).val() );
+                        //         }
+                        //     });
+                        //     $.ajax({
+                        //         url: "https://script.google.com/macros/s/AKfycbwLSG2VAXZfIR8X60KgIPJQk8tR7-5ebIzSfO205UCOCknXDuo-/exec",
+                        //         data: {
+                        //             method: 'set_values',
+                        //             data: JSON.stringify(array)
+                        //         },
+                        //         success: function(response) {
+                        //             response === 'done' ? $("#send").text("新增") : $("#send").text("失敗");
+                        //             liff.closeWindow();
+                        //         }
+                        //     });
+                        // }
+                    }
+                });
+            });
+
+            function initializeLiff(myLiffId) {
+                liff.init({
+                    liffId: myLiffId
+                }).then(() => {
+                    // console.log('LIFF init');
+                }).catch(function(error) {
+                    console.log(error);
+                });
+            }
+
+            function timeStamp2String (time) {
+                var datetime = new Date();
+                datetime.setTime(time);
+                var year = datetime.getFullYear();
+                var month = datetime.getMonth() + 1;
+                var date = datetime.getDate();
+                var hour = datetime.getHours();
+                var minute = datetime.getMinutes();
+                var second = datetime.getSeconds();
+                var mseconds = datetime.getMilliseconds();
+                return month + "/" + date + " " + hour + ":" + minute;
+            };
+        </script>
+    </body>
+</html>
