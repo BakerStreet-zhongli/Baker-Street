@@ -177,6 +177,12 @@
                     </div>
                     <input id="row22" type="tel" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled>
                 </div>
+                <div class="input-group input-group-sm mb-3 col">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text iga-prefix">結算</span>
+                    </div>
+                    <input id="row23" type="tel" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" disabled>
+                </div>
             </div>
             <div class="form-group">
                 <button id="send" type="button" class="btn btn-primary btn-block btn-sm">修改</button>
@@ -263,6 +269,7 @@
                                 $(this).val( arr[index] );
                             }
                         });
+                        $("#row23").val( $("#row21").val()-$("#row22").val() );
                     }
                 });
             }
