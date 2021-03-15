@@ -35,10 +35,10 @@
                     </div>
                     <!-- <input id="row2" type="tel" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm"> -->
                     <select class="custom-select" id="row2">
-                        <option selected>請選擇</option>
+                        <option selected>必填</option>
                         <option value="K">K</option>
                         <option value="于">于</option>
-                        <option value="胡歌">胡歌</option>
+                        <option value="胡歌">霖</option>
                     </select>
                 </div>
             </div>
@@ -168,6 +168,14 @@
                     <input id="row20" type="tel" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                 </div>
             </div>
+            <div class="form-row">
+                <div class="input-group input-group-sm mb-3 col">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text iga-prefix">今營業額</span>
+                    </div>
+                    <input id="row21" type="tel" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                </div>
+            </div>
             <div class="form-group">
                 <button id="send" type="button" class="btn btn-primary btn-block btn-sm">新增</button>
             </div>
@@ -189,26 +197,30 @@
                 });
 
                 $("#send").on('click', function () {
-                    if ( confirm("確定 新增 嗎?") ) {
-                        if ( liff.isInClient() && liff.isLoggedIn() ) {
-                            $(this).text("傳送中...");
-                            let array = [];
-                            $("#allInput input, #allInput select").each(function() {
-                                if ( $(this).attr('id') ) {
-                                    array.push( $(this).val() );
-                                }
-                            });
-                            $.ajax({
-                                url: "https://script.google.com/macros/s/AKfycbwLSG2VAXZfIR8X60KgIPJQk8tR7-5ebIzSfO205UCOCknXDuo-/exec",
-                                data: {
-                                    method: 'add_values',
-                                    data: JSON.stringify(array)
-                                },
-                                success: function(response) {
-                                    response === 'done' ? $("#send").text("新增") : $("#send").text("失敗");
-                                    liff.closeWindow();
-                                }
-                            });
+                    if ( $("#row2").val() === '必填' ) {
+                        alert('請選擇填寫人');
+                    }else {
+                        if ( confirm("確定 新增 嗎?") ) {
+                            if ( liff.isInClient() && liff.isLoggedIn() ) {
+                                $(this).text("傳送中...");
+                                let array = [];
+                                $("#allInput input, #allInput select").each(function() {
+                                    if ( $(this).attr('id') ) {
+                                        array.push( $(this).val() );
+                                    }
+                                });
+                                $.ajax({
+                                    url: "https://script.google.com/macros/s/AKfycbwLSG2VAXZfIR8X60KgIPJQk8tR7-5ebIzSfO205UCOCknXDuo-/exec",
+                                    data: {
+                                        method: 'add_values',
+                                        data: JSON.stringify(array)
+                                    },
+                                    success: function(response) {
+                                        response === 'done' ? $("#send").text("新增") : $("#send").text("失敗");
+                                        liff.closeWindow();
+                                    }
+                                });
+                            }
                         }
                     }
                 });
