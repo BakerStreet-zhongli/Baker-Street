@@ -8,5 +8,17 @@
 </head>
 <body>
     <div id="msg">讀取訊息測試</div>
+    <script>
+        let xmlHttp = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = function () {
+          if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+            let res = JSON.parse( xmlHttp.responseText );
+            let $text = res.feed.entry[1].gs$cell.$t;
+            document.getElementById("msg").innerHTML = $text;
+          }
+        }
+        xmlHttp.open("GET", 'https://spreadsheets.google.com/feeds/cells/19V5tU1HJe6WfApVjjg6-aVNQCxWSlkI1NKP8bfzpsCc/2/public/values?alt=json', true); // true for asynchronous
+        xmlHttp.send(null);
+    </script>
 </body>
 </html>
