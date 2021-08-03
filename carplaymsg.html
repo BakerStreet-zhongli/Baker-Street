@@ -17,7 +17,7 @@
             document.getElementById("msg").innerHTML = $text;
           }
         }
-        xmlHttp.open("GET", 'https://spreadsheets.google.com/feeds/cells/19V5tU1HJe6WfApVjjg6-aVNQCxWSlkI1NKP8bfzpsCc/2/public/values?alt=json', true); // true for asynchronous
+        xmlHttp.open("GET", 'https://spreadsheets.google.com/feeds/cells/19V5tU1HJe6WfApVjjg6-aVNQCxWSlkI1NKP8bfzpsCc/2/public/values?alt=json', false); // true for asynchronous
         xmlHttp.send(null);
     </script>
 </body>
