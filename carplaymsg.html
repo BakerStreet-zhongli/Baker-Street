@@ -13,7 +13,7 @@
         xmlHttp.onreadystatechange = function () {
           if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
             let res = JSON.parse( xmlHttp.responseText );
-            let $text = res.feed.entry[1].gs$cell.$t;
+            let $text = res.feed.entry[0].gs$cell.$t;
             document.getElementById("msg").innerHTML = $text;
           }
         }
