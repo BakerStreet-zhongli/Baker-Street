@@ -179,7 +179,7 @@
   </footer>
   <!-- End Footer -->
   <script id="get-rest" type="text/plain" target="amp-script">
-    let xmlHttp = new XMLHttpRequest();
+    /* let xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function () {
       if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
         let res = JSON.parse( xmlHttp.responseText );
@@ -191,8 +191,8 @@
         document.getElementById("rest").innerHTML = ele;
       }
     }
-    /* xmlHttp.open("GET", 'https://spreadsheets.google.com/feeds/cells/19V5tU1HJe6WfApVjjg6-aVNQCxWSlkI1NKP8bfzpsCc/1/public/values?alt=json', true); // true for asynchronous */
-    /* xmlHttp.send(null); */
+    xmlHttp.open("GET", 'https://spreadsheets.google.com/feeds/cells/19V5tU1HJe6WfApVjjg6-aVNQCxWSlkI1NKP8bfzpsCc/1/public/values?alt=json', true); // true for asynchronous
+    xmlHttp.send(null); */
   </script>
 </body>
 </html>
