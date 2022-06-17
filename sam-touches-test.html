@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang=en>
+
+<head>
+  <title>Touches</title>
+  <meta name="viewport" content="width=device-width">
+  <style>
+    div {
+      margin: 0em;
+      padding: 2em;
+    }
+
+    #target1 {
+      background: white;
+      border: 1px solid black;
+      height: 300px;
+    }
+  </style>
+</head>
+
+<script>
+  var forcetouch = true;
+
+  // Touch Point cache
+  var tpCache = new Array();
+
+  function log(name, ev, printTargetIds) {
+    var o = document.getElementsByTagName('output')[0];
+    var s = name + ": touches = " + ev.touches.length +
+      " ; targetTouches = " + ev.targetTouches.length +
+      " ; changedTouches = " + ev.changedTouches.length;
+    o.innerHTML += s + " <br>";
+
+    if (printTargetIds) {
+      s = "";
+      for (var i = 0; i < ev.targetTouches.length; i++) {
+        s += "... id = " + ev.targetTouches[i].identifier + " <br>";
+      }
+      o.innerHTML += s;
+    }
+  }
+
+  function clearLog(event) {
+    var o = document.getElementsByTagName('output')[0];
+    o.innerHTML = "";
+  }
+
+  function update_background(ev, $forcetouch) {
+    // Change background color based on the number simultaneous touches
+    // in the event's targetTouches list:
+    //   yellow - one tap (or hold)
+    //   pink - two taps
+    //   lightblue - more than two taps
+    if ($forcetouch === true) {
+      switch (ev.targetTouches.length) {
+      case 1:
+        ev.target.style.background = "yellow";
+        break;
+      case 2:
+        ev.target.style.background = "pink";
+        break;
+      case 3:
+        ev.target.style.background = "lightblue";
+        break;
+      case 4:
+        ev.target.style.background = "blue";
+        break;
+      case 5:
+        ev.target.style.background = "red";
+        break;
+    }
+      if (ev.targetTouches.length === 3) {
+        document.getElementById("target1").innerHTML = "已核銷";
+        forcetouch = false;
+      }
+    }
+  }
+
+  function handle_pinch_zoom(ev) {
+
+    if (ev.targetTouches.length == 2 && ev.changedTouches.length == 2) {
+      var point1 = -1, point2 = -1;
+      for (var i = 0; i < tpCache.length; i++) {
+        if (tpCache[i].identifier == ev.targetTouches[0].identifier) point1 = i;
+        if (tpCache[i].identifier == ev.targetTouches[1].identifier) point2 = i;
+      }
+      if (point1 >= 0 && point2 >= 0) {
+        var diff1 = Math.abs(tpCache[point1].clientX - ev.targetTouches[0].clientX);
+        var diff2 = Math.abs(tpCache[point2].clientX - ev.targetTouches[1].clientX);
+
+        var PINCH_THRESHHOLD = ev.target.clientWidth / 10;
+      }
+      else {
+        tpCache = new Array();
+      }
+    }
+  }
+
+  function start_handler(ev) {
+    ev.preventDefault();
+    if (ev.targetTouches.length == 2) {
+      for (var i = 0; i < ev.targetTouches.length; i++) {
+        tpCache.push(ev.targetTouches[i]);
+      }
+    }
+    update_background(ev, forcetouch);
+  }
+
+  function end_handler(ev) {
+    ev.preventDefault();
+    if (ev.targetTouches.length == 0) {
+      ev.target.style.background = "white";
+      ev.target.style.outline = "1px solid black";
+    }
+  }
+
+  function set_handlers(name) {
+    var el = document.getElementById(name);
+    el.ontouchstart = start_handler;
+    el.ontouchcancel = end_handler;
+    el.ontouchend = end_handler;
+  }
+
+  function init() {
+    set_handlers("target1");
+  }
+
+</script>
+
+<body onload="init();">
+  <h1>interaction</h1>
+  <div id="target1"> Touch me </div>
+
+  <output></output>
+</body>
+
+</html>
